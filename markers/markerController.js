@@ -18,11 +18,16 @@ router.post('/', function (req, res) {
             lng : req.body.lng
         },
         function (err, marker) {
-            if (err.code === 11000) {
-                // Duplicate username
-                return res.status(500).send({ succes: false, message: 'marker already exist!' });
-            }
-            if (err) return res.status(500).send(err);
+            if (err) {
+				if (err.code === 11000) {
+					// Duplicate marker
+					return res.status(500).send({ succes: false, message: 'Marker already exist!' });
+				} 
+				else 
+				{					
+					return res.status(500).send(err);
+				}
+			}
             res.status(200).send(marker);
         });
 });
