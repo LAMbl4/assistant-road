@@ -2,7 +2,7 @@
 var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
-router.use(bodyParser.urlencoded({ extended: true }));
+router.use(bodyParser.urlencoded({ extended: 'true' }));
 router.use(bodyParser.json());
 var User = require('./User');
 
@@ -39,17 +39,17 @@ router.post('/', function (req, res) {
 // RETURNS ALL THE USERS IN THE DATABASE
 router.get('/', function (req, res) {
     User.find({}, function (err, users) {
-		if (err) return res.status(200).send({ success: false, message: 'There was a problem finding the users.' });
-        res.status(200).send({ success: true, message: 'return users.', result: users });
+		if (err) return res.status(200).send({ success: 'false', message: 'There was a problem finding the users.' });
+        res.status(200).send({ success: 'true', message: 'return users.', result: users });
     });
 });
 
 // GETS A SINGLE USER FROM THE DATABASE
 router.get('/:fb_id', function (req, res) {
     User.findOne({ 'fb_id': req.params.fb_id }, req.body, function (err, user) {
-		if (err) return res.status(200).send({ success: false, message: 'There was a problem finding the user.' });
-		if (!user) return res.status(200).send({ success: false, message: 'No user found.' });
-        res.status(200).send({ success: true, message: 'return user.', result: user });
+		if (err) return res.status(200).send({ success: 'false', message: 'There was a problem finding the user.' });
+		if (!user) return res.status(200).send({ success: 'false', message: 'No user found.' });
+        res.status(200).send({ success: 'true', message: 'return user.', result: user });
     });
 });
 
@@ -65,8 +65,8 @@ router.delete('/:id', function (req, res) {
 router.put('/:fb_id', function (req, res) {
 
     User.findOneAndUpdate({ 'fb_id': req.params.fb_id }, req.body, function (err, user) {
-		if (err) return res.status(200).send({ success: false, message: 'There was a problem updating the user.' });
-        res.status(200).send({ success: true, message: 'User '+ user.name +' was update.' });
+		if (err) return res.status(200).send({ success: 'false', message: 'There was a problem updating the user.' });
+        res.status(200).send({ success: 'true', message: 'User '+ user.name +' was update.' });
     });
 });
 
