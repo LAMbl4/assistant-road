@@ -26,27 +26,27 @@ router.post('/', function (req, res) {
 				} 
 				else 
 				{					
-					return res.status(500).send(err);
+					return res.status(500).send({ succes: false, message: 'err' });
 				}
 			}
-            res.status(200).send(user);
+            res.status(200).send({ succes: true, message: 'return users.', result: user });
         });
 });
 
 // RETURNS ALL THE USERS IN THE DATABASE
 router.get('/', function (req, res) {
     User.find({}, function (err, users) {
-        if (err) return res.status(500).send("There was a problem finding the users.");
-        res.status(200).send(users);
+		if (err) return res.status(500).send({ succes: false, message: 'There was a problem finding the users.' });
+        res.status(200).send({ succes: true, message: 'return users.', result: users });
     });
 });
 
 // GETS A SINGLE USER FROM THE DATABASE
-router.get('/:id', function (req, res) {
-    User.findById(req.params.id, function (err, user) {
-        if (err) return res.status(500).send("There was a problem finding the user.");
-        if (!user) return res.status(404).send("No user found.");
-        res.status(200).send(user);
+router.get('/:fb_id', function (req, res) {
+    User.findOne({ 'fb_id': req.params.fb_id }, req.body, function (err, user) {
+		if (err) return res.status(500).send({ succes: false, message: 'There was a problem finding the user.' });
+		if (!user) return res.status(404).send({ succes: false, message: 'No user found.' });
+        res.status(200).send({ succes: true, message: 'return user.', result: user });
     });
 });
 
@@ -54,16 +54,16 @@ router.get('/:id', function (req, res) {
 router.delete('/:id', function (req, res) {
     User.findByIdAndRemove(req.params.id, function (err, user) {
         if (err) return res.status(500).send("There was a problem deleting the user.");
-        res.status(200).send("User "+ user.name +" was deleted.");
+        res.status(200).send("User "+ user.fb_id +" was deleted.");
     });
 });
 
 // UPDATES A SINGLE USER IN THE DATABASE
-router.put('/:id', function (req, res) {
+router.put('/:fb_id', function (req, res) {
 
-    User.findByIdAndUpdate(req.params.id, req.body, {new: true}, function (err, user) {
-        if (err) return res.status(500).send("There was a problem updating the user.");
-        res.status(200).send(user);
+    User.findOneAndUpdate({ 'fb_id': req.params.fb_id }, req.body, function (err, user) {
+		if (err) return res.status(500).send({ succes: false, message: 'There was a problem updating the user.' });
+        res.status(200).send({ succes: true, message: 'User '+ user.name +' was update.' });
     });
 });
 
