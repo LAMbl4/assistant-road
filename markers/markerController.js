@@ -36,7 +36,7 @@ router.post('/', function (req, res) {
 router.get('/', function (req, res) {
     Marker.find({}, function (err, markers) {
         if (err) return res.status(200).send({ success: false, message: 'There was a problem finding the Markers.' });
-        res.status(200).send({ success: true, message: 'return Markers.', result: markers});
+        res.status(200).send({ success: true, message: 'return Markers.', resultMarkers: markers});
     });
 });
 
