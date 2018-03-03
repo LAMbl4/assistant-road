@@ -22,7 +22,7 @@ router.post('/', function (req, res) {
             if (err) {
 				if (err.code === 11000) {
 					// Duplicate username
-					return res.status(400).json({
+					return res.status(200).json({
 						success: 'false', 
 						message: 'User already exist!', 
 					});
